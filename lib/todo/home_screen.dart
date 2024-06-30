@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_provider/provider/theme_changer_provider.dart';
 import 'package:flutter_provider/todo/model/todo_model.dart';
 import 'package:provider/provider.dart';
 import 'todo_provider.dart';
@@ -17,12 +18,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var themeChanger = Provider.of<ThemeChangerProvider>(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Todo List'),
-      ),
+      appBar: appBar(),
       body: Column(
         children: [
+          theme(themeChanger),
+          SizedBox(height: 20),
           Padding(
             padding: EdgeInsets.all(8.0),
             child: Row(
@@ -60,22 +62,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (context, index) {
                     final todo = todoProvider.todos[index];
                     return ListTile(
-                      title: Text(
-                        todo.title,
-                        style: TextStyle(
-                            decoration: todo.isCompleted
-                                ? TextDecoration.lineThrough
-                                : TextDecoration.none),
-                      ),
+                      title: Text(todo.title,
+                          style: TextStyle(
+                              decoration: todo.isCompleted
+                                  ? TextDecoration.lineThrough
+                                  : TextDecoration.none)),
                       trailing: Checkbox(
-                        value: todo.isCompleted,
-                        onChanged: (value) {
-                          todoProvider.toggleTodoStatus(index);
-                        },
-                      ),
-                      onLongPress: () {
-                        todoProvider.removeTodo(index);
-                      },
+                          value: todo.isCompleted,
+                          onChanged: (value) =>
+                              todoProvider.toggleTodoStatus(index)),
+                      onLongPress: () => todoProvider.removeTodo(index),
                     );
                   },
                 );
@@ -84,6 +80,35 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget theme(ThemeChangerProvider themeChanger) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RadioListTile<ThemeMode>(
+            title: Text("Light Theme"),
+            value: ThemeMode.light,
+            groupValue: themeChanger.theme,
+            onChanged: themeChanger.setTheme),
+        RadioListTile<ThemeMode>(
+            title: Text("Dark Theme"),
+            value: ThemeMode.dark,
+            groupValue: themeChanger.theme,
+            onChanged: themeChanger.setTheme),
+        RadioListTile<ThemeMode>(
+            title: Text("System Theme"),
+            value: ThemeMode.system,
+            groupValue: themeChanger.theme,
+            onChanged: themeChanger.setTheme),
+      ],
+    );
+  }
+
+  AppBar appBar() {
+    return AppBar(
+      title: Text('Todo List'),
     );
   }
 }
