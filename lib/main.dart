@@ -24,7 +24,6 @@ class MyApp extends StatelessWidget {
         builder: (context) {
           var themeChanger = Provider.of<ThemeChangerProvider>(context);
           return MaterialApp(
-            debugShowCheckedModeBanner: false,
             themeMode: themeChanger.theme,
             darkTheme: ThemeData(brightness: Brightness.dark),
             home: HomeScreen(),
