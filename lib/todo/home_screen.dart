@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_provider/provider/theme_changer_provider.dart';
 import 'package:flutter_provider/todo/model/todo_model.dart';
 import 'package:provider/provider.dart';
-import 'todo_provider.dart';
+import 'package:flutter_provider/todo/todo_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
