@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             themeMode: themeChanger.theme,
             darkTheme: ThemeData(brightness: Brightness.dark),
-            home: HomeScreen(),
+            home:const HomeScreen(),
           );
         },
       ),
